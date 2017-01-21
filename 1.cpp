@@ -2,6 +2,7 @@
 // g++ --std=gnu++14 -c 1.cpp
 
 #include <iostream>
+#include <stdio.h>
 
 struct xplusone {
   template<typename T>
@@ -9,6 +10,18 @@ struct xplusone {
     return x + 1 ;
   };
 } xplusone;
+
+auto terminal = [] (auto term) {
+  return [=] (auto func) {
+    return func(term);
+  };
+};
+auto fmap = [] (auto f) {
+  return [=] (auto t) {
+    return terminal(f(t));
+  };
+};
+
 
 int main (int argc, char** argv)
 {
@@ -22,6 +35,14 @@ int main (int argc, char** argv)
   };
   auto z = xplusone2(4);
   std::cout << "= " << xplus(3)(4) << std::endl;
+
+  auto hello = [] (auto s) { fprintf(s,"hefii "); return s; };
+  auto world = [] (auto s) { fprintf(s,"wfnti "); return s; };
+  auto endl = [] (auto s) { fprintf(s,"\n"); return s; };
+
+  terminal(stdout)(fmap(hello))(fmap(world))(fmap(endl));
+
+  
   return 0;
 }
 
@@ -44,4 +65,4 @@ template <> struct is_void<void> { static const bool value = true; };
 // };							    //
 //////////////////////////////////////////////////////////////
 
-
+//  monads are “chainable state containers.”
