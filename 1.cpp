@@ -1,5 +1,7 @@
 // https://chriskohlhepp.wordpress.com/advanced-c-lisp/convergence-of-modern-cplusplus-and-lisp/
-// g++ --std=gnu++14 -c 1.cpp 
+// g++ --std=gnu++14 -c 1.cpp
+
+#include <iostream>
 
 struct xplusone {
   template<typename T>
@@ -15,7 +17,11 @@ int main (int argc, char** argv)
   auto xplusone2 = [](auto x){
     return x + 1 ;
   };
+  auto xplus = [](auto y){
+    return [=](auto x) { return x + y; };
+  };
   auto z = xplusone2(4);
+  std::cout << "= " << xplus(3)(4) << std::endl;
   return 0;
 }
 
