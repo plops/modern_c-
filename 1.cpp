@@ -15,3 +15,9 @@ int main (int argc, char** argv)
 
   return 0;
 }
+
+template <typename T> struct is_void { static const bool value = false; };
+template <> struct is_void<void> { static const bool value = true; };
+
+
+// In modern C++, the onus is on the developer to BOTH create type traits AND apply them to attain type safety.
